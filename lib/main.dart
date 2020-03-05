@@ -30,6 +30,16 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
 
+  void checkAnswer (bool userAnswer){
+    bool correctAnswer = quizBrain.getQuestionAnswer();
+
+    if(userAnswer == correctAnswer){
+      print('user got it right!');
+    } else {
+      print('user got it wrong');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -68,7 +78,7 @@ class _QuizPageState extends State<QuizPage> {
               onPressed: () {
 //                바로 값에 접근하면 보안에 위혐됨... 객체를 private로 변경...
 //                quizBrain.questionBank[questionNumber].questionAnswer = true;
-                bool correctAnswer = quizBrain.getQuestionAnswer();
+                checkAnswer(true);
                 setState(() {
                   quizBrain.nextQuestion();
                 });
@@ -89,7 +99,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = quizBrain.getQuestionAnswer();
+                checkAnswer(false);
                 setState(() {
                   quizBrain.nextQuestion();
                 });
