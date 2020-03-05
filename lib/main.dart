@@ -29,11 +29,7 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<Icon> scoreKeeper = [];
-  List<bool> answer = [];
 
-
-  int questionNumber = 0;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,7 +42,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                quizBrain.questionBank[questionNumber].questionText,
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -70,8 +66,12 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = quizBrain.questionBank[questionNumber]
-                    .questionAnswer;
+//                바로 값에 접근하면 보안에 위혐됨... 객체를 private로 변경...
+//                quizBrain.questionBank[questionNumber].questionAnswer = true;
+                bool correctAnswer = quizBrain.getQuestionAnswer();
+                setState(() {
+                  quizBrain.nextQuestion();
+                });
               },
             ),
           ),
@@ -89,8 +89,10 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = quizBrain.questionBank[questionNumber]
-                    .questionAnswer;
+                bool correctAnswer = quizBrain.getQuestionAnswer();
+                setState(() {
+                  quizBrain.nextQuestion();
+                });
               },
             ),
           ),
