@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'question.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quiz_brain.dart';
 
 QuizBrain quizBrain = QuizBrain();
@@ -29,15 +29,26 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Icon> scoreKeppter = [];
+
 
   void checkAnswer (bool userAnswer){
-    bool correctAnswer = quizBrain.getQuestionAnswer();
+    bool correctAnswer = quizBrain.getCorrectnAnswer();
+    setState(() {
+      if(quizBrain.lastQuestionAnswer()){
+        if(userAnswer == correctAnswer){
+          scoreKeppter.add(Icon(Icons.check, color:Colors.green ,));
+          print('user got it right!');
+        } else {
+          scoreKeppter.add(Icon(Icons.close, color: Colors.red,));
+          print('user got it wrong');
+        }
+        quizBrain.nextQuestion();
+      }else{
+        Alert(context: context, title: "질문 끝", desc: "모든문제를 풀었당").show();
+      }
+    });
 
-    if(userAnswer == correctAnswer){
-      print('user got it right!');
-    } else {
-      print('user got it wrong');
-    }
   }
 
   @override
@@ -79,9 +90,6 @@ class _QuizPageState extends State<QuizPage> {
 //                바로 값에 접근하면 보안에 위혐됨... 객체를 private로 변경...
 //                quizBrain.questionBank[questionNumber].questionAnswer = true;
                 checkAnswer(true);
-                setState(() {
-                  quizBrain.nextQuestion();
-                });
               },
             ),
           ),
@@ -100,15 +108,12 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 checkAnswer(false);
-                setState(() {
-                  quizBrain.nextQuestion();
-                });
               },
             ),
           ),
         ),
         Row(
-
+          children: scoreKeppter
         ),
       ],
     );

@@ -39,7 +39,14 @@ class QuizBrain{
   String getQuestionText() {
     return _questionBank[_qustionNumber].questionText;
   }
-  bool getQuestionAnswer(){
+  bool getCorrectnAnswer(){
     return _questionBank[_qustionNumber].questionAnswer;
+  }
+  bool lastQuestionAnswer(){
+    if(_qustionNumber < _questionBank.length-1){
+      return true;
+    }else{
+      return false;
+    }
   }
 }
